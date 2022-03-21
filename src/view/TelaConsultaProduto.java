@@ -1,0 +1,385 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package view;
+
+import conection.ConnectionFactory;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.function.Consumer;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import model.bean.Cliente;
+import model.dao.ClienteDAO;
+import static view.TelaCliente.btnCancelar;
+import static view.TelaCliente.btnEditar;
+import static view.TelaCliente.btnExcluir;
+import static view.TelaCliente.btnImprimir;
+import static view.TelaCliente.btnNovo;
+import static view.TelaCliente.btnSair;
+import static view.TelaCliente.btnSalvar;
+import static view.TelaCliente.cbUF;
+import static view.TelaCliente.cbxInativo;
+import static view.TelaCliente.conCli;
+import static view.TelaCliente.ftxtCelular;
+import static view.TelaCliente.txtCep;
+import static view.TelaCliente.txtBairro;
+import static view.TelaCliente.txtCgc;
+import static view.TelaCliente.txtCidade;
+import static view.TelaCliente.txtComplemento;
+import static view.TelaCliente.txtDataCadastro;
+import static view.TelaCliente.txtEmail;
+import static view.TelaCliente.txtEndereco;
+import static view.TelaCliente.txtId;
+import static view.TelaCliente.txtNome;
+import static view.TelaCliente.txtNumero;
+import static view.TelaCliente.txtTelefone;
+
+
+/**
+ *
+ * @author Marlon
+ */
+public final class TelaConsultaProduto extends javax.swing.JInternalFrame {
+
+    /**
+     * Creates new form ConCli
+     */
+    public TelaConsultaProduto() {
+        initComponents();
+        DefaultTableModel modelo = (DefaultTableModel) jtbPesqProduto.getModel();
+        jtbPesqProduto.setRowSorter(new TableRowSorter(modelo));
+
+        //readTable();
+    }
+
+    public void readTableCgc() {
+
+        DefaultTableModel modelo = (DefaultTableModel) jtbPesqProduto.getModel();
+        modelo.setNumRows(0);
+        ClienteDAO cdao = new ClienteDAO();
+
+        cdao.readcgc().forEach((Cliente c) -> {
+            modelo.addRow(new Object[]{
+                c.getCgc(),
+                c.getNome(),
+                c.getCelular(),
+                c.getCidade()
+                    
+            });
+        });
+
+    }
+
+    public void readTableNome() {
+
+        DefaultTableModel modelo = (DefaultTableModel) jtbPesqProduto.getModel();
+        modelo.setNumRows(0);
+        ClienteDAO cdao = new ClienteDAO();
+
+        for (Cliente c : cdao.readnome()) {
+            modelo.addRow(new Object[]{
+                c.getCgc(),
+                c.getNome(),
+                c.getCelular(),
+                c.getCidade()
+
+            });
+        }
+
+    }
+
+    public void pesquisar() {
+        if (cbxPesq.getSelectedItem().toString().equals("NOME")) {
+            readTableNome();
+        }
+
+        if (cbxPesq.getSelectedItem().toString().equals("CGC")) {
+            readTableCgc();
+        }
+
+    }
+    
+    public void setar(){
+        
+       ClienteDAO Objsetar = new ClienteDAO();
+
+        Cliente objsetar = new Cliente(); 
+        
+        Objsetar.setar_campos(objsetar);
+        
+        txtId.setText(String.valueOf(objsetar.getIdCliente()));
+        txtCgc.setText(objsetar.getCgc());
+        txtNome.setText(objsetar.getNome());
+        ftxtCelular.setText(objsetar.getCelular());
+       txtTelefone.setText(objsetar.getTelefone());
+        txtEmail.setText(objsetar.getEmail());
+        txtCep.setText(objsetar.getCep());
+        txtEndereco.setText(objsetar.getEndereco());
+        txtComplemento.setText(objsetar.getComplemento());
+        txtNumero.setText(objsetar.getNumero());
+        txtBairro.setText(objsetar.getBairro());
+        txtCidade.setText(objsetar.getCidade());
+        cbUF.setSelectedItem(objsetar.getUf());
+        //cbxInativo.isSelected(objsetar.getInativo(1))
+        
+        
+    }
+    public void recuperarCliente() {
+
+        String sql = "select max(idcliente), max(datacadastro) from cliente";
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionFactory.getConnection();
+            stmt = (PreparedStatement) con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+
+                txtId.setText(rs.getString(1));
+                txtDataCadastro.setText(rs.getString(2));
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro Buscar ID" + e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        cbxPesq = new javax.swing.JComboBox<>();
+        txtPesquisaProduto = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtbPesqProduto = new javax.swing.JTable();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+
+        setAutoscrolls(true);
+
+        cbxPesq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CODIGO", "DESCRIÇÃO" }));
+
+        txtPesquisaProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPesquisaProdutoKeyPressed(evt);
+            }
+        });
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-pesquisar-24.png"))); // NOI18N
+        jButton1.setText("Pesquisar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jtbPesqProduto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "COD", "Descrição", "Marca", "UN", "Valor"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtbPesqProduto.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jtbPesqProdutoAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jtbPesqProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtbPesqProdutoMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jtbPesqProdutoMouseEntered(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtbPesqProduto);
+        if (jtbPesqProduto.getColumnModel().getColumnCount() > 0) {
+            jtbPesqProduto.getColumnModel().getColumn(0).setMinWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(0).setMaxWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(2).setMinWidth(130);
+            jtbPesqProduto.getColumnModel().getColumn(2).setPreferredWidth(130);
+            jtbPesqProduto.getColumnModel().getColumn(2).setMaxWidth(130);
+            jtbPesqProduto.getColumnModel().getColumn(3).setMinWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(3).setPreferredWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(3).setMaxWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(4).setMinWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(4).setPreferredWidth(80);
+            jtbPesqProduto.getColumnModel().getColumn(4).setMaxWidth(80);
+        }
+
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-ok-24.png"))); // NOI18N
+        jToggleButton1.setText("Selecionar");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-desligar-24.png"))); // NOI18N
+        jToggleButton2.setText("Sair");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToggleButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cbxPesq, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton1)))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbxPesq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPesquisaProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jToggleButton1)
+                    .addComponent(jToggleButton2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        // TODO add your handling code here:
+        TelaCliente.conCli = false;
+        dispose();
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jtbPesqProdutoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jtbPesqProdutoAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtbPesqProdutoAncestorAdded
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        pesquisar();
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtPesquisaProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaProdutoKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            pesquisar();
+
+        }
+    }//GEN-LAST:event_txtPesquisaProdutoKeyPressed
+
+    private void jtbPesqProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbPesqProdutoMouseClicked
+        // TODO add your handling code here:
+        
+       
+        
+       
+    }//GEN-LAST:event_jtbPesqProdutoMouseClicked
+
+    private void jtbPesqProdutoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbPesqProdutoMouseEntered
+        // TODO add your handling code here:
+        
+         
+    }//GEN-LAST:event_jtbPesqProdutoMouseEntered
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        setar();
+        conCli = false;
+        dispose();
+        ativarcampos();
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+public void ativarcampos(){
+        //Ativando campos
+        txtCgc.setEnabled(true);
+        txtNome.setEnabled(true);
+        
+        ftxtCelular.setEnabled(true);
+        txtTelefone.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtCep.setEnabled(true);
+        txtEndereco.setEnabled(true);
+        txtComplemento.setEnabled(true);
+        txtNumero.setEnabled(true);
+        txtBairro.setEnabled(true);
+        txtCidade.setEnabled(true);
+        
+        cbUF.setEnabled(true);
+        
+        // BOTÕES
+        btnNovo.setEnabled(true);
+        btnEditar.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        btnExcluir.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnSair.setEnabled(true);
+        cbxInativo.setEnabled(true);
+        btnImprimir.setEnabled(true);
+        
+    }
+   
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbxPesq;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    public static javax.swing.JTable jtbPesqProduto;
+    public static javax.swing.JTextField txtPesquisaProduto;
+    // End of variables declaration//GEN-END:variables
+}
