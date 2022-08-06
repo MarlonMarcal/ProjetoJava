@@ -12,7 +12,7 @@ package model.bean;
 public class Ncm {
     
     
-    private int codigo;
+    private int idncm;
     private String ncm;
     private String descricao;
     private Double aliqnac;
@@ -20,11 +20,11 @@ public class Ncm {
     private Boolean inativo;
 
     public int getCodigo() {
-        return codigo;
+        return idncm;
     }
 
     public void setCodigo(int codigo) {
-        this.codigo = codigo;
+        this.idncm = codigo;
     }
 
     public String getNcm() {

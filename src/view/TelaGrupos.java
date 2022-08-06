@@ -269,7 +269,7 @@ public class TelaGrupos extends javax.swing.JInternalFrame {
         modelo.setNumRows(0);
         GrupoDAO mdao = new GrupoDAO();
 
-        mdao.readgrupos().forEach((g) -> {
+        mdao.readGrupos().forEach((g) -> {
             modelo.addRow(new Object[]{
                 g.getCodigo(),
                 g.getGrupo(),});
@@ -279,29 +279,29 @@ public class TelaGrupos extends javax.swing.JInternalFrame {
 
     public void btnsalvar() {
 
-        GrupoDAO objGrupo = new GrupoDAO();
+        GrupoDAO dao = new GrupoDAO();
 
-        Grupo objgrupo = new Grupo();
+        Grupo g = new Grupo();
 
-        objgrupo.setGrupo(txtGrupo.getText());
+        g.setGrupo(txtGrupo.getText());
 
-        objGrupo.salvar(objgrupo);
+        g = dao.save(g);
         
-        txtCodigo.setText(null);
-        txtGrupo.setText(null);
+        txtCodigo.setText(String.valueOf(g.getCodigo()));
+        txtGrupo.setText(g.getGrupo());
 
     }
 
     public void setar() {
 
-        GrupoDAO Objsetar = new GrupoDAO();
+        GrupoDAO dao = new GrupoDAO();
+        
+        Integer id = (Integer) jtbGrupos.getValueAt(jtbGrupos.getSelectedRow(), 0);
 
-        Grupo objsetar = new Grupo();
+        Grupo g = dao.findById(id);
 
-        Objsetar.setar_grupos(objsetar);
-
-        txtCodigo.setText(String.valueOf(objsetar.getCodigo()));
-        txtGrupo.setText(objsetar.getGrupo());
+        txtCodigo.setText(String.valueOf(g.getCodigo()));
+        txtGrupo.setText(g.getGrupo());
 
     }
 
@@ -312,8 +312,10 @@ public class TelaGrupos extends javax.swing.JInternalFrame {
         Grupo g = new Grupo();
 
         g.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        
+        Integer id = (Integer) jtbGrupos.getValueAt(jtbGrupos.getSelectedRow(), 0);
 
-        dao.Deletar(g);
+        dao.remove(id);
 
         txtCodigo.setText(null);
         txtGrupo.setText(null);

@@ -239,7 +239,7 @@ public class RelatorioProdutos extends javax.swing.JInternalFrame {
                 marca = jcMarca.getSelectedItem().toString();
             }
 
-            GerarRelatorio.gerarRelatorioProd(dataInicio, dataFim, grupo, marca);
+           /* GerarRelatorio.gerarRelatorioProd(dataInicio, dataFim, grupo, marca);*/
 
             System.out.println("TESTE = data inicio: " + dcDataInicio.getText() + "   data fim: " + dcDataFim.getText());
 
@@ -279,7 +279,7 @@ public class RelatorioProdutos extends javax.swing.JInternalFrame {
     private void jcGrupoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jcGrupoAncestorAdded
         // TODO add your handling code here:
         GrupoDAO dao = new GrupoDAO();
-        List<Grupo> lista = dao.readgrupos();
+        List<Grupo> lista = dao.readGrupos();
 
         jcGrupo.removeAll();
 

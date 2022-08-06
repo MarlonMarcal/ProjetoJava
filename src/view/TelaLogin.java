@@ -11,6 +11,7 @@ import model.bean.Usuario;
 import model.dao.UsuarioDAO;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import static view.JfPrincipal.txtNomeUser;
 
 /**
  *
@@ -66,7 +67,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 80, 30));
+        getContentPane().add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 90, 30));
 
         jLabelUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabelUsuario.setForeground(new java.awt.Color(255, 255, 255));
@@ -192,19 +193,17 @@ public class TelaLogin extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     public void entrar(){
-        UsuarioDAO objUsuario = new UsuarioDAO();
-        Usuario objusuario = new Usuario();
-
-        objusuario.setLogin(txtLogin.getText());
-        objusuario.setSenha(txtSenha.getText());
+        UsuarioDAO dao = new UsuarioDAO();
+        Usuario usuario = new Usuario();
+ 
 
         if ((txtLogin.getText().isEmpty()) || (txtSenha.getText().isEmpty())) {
 
             JOptionPane.showMessageDialog(this, "Prencha todos os campos !");
         } else {
 
-            objUsuario.logar(objusuario);
-
+            dao.logar(txtLogin.getText(), txtSenha.getText());
+            txtNomeUser.setText(usuario.getLogin());
             this.dispose();
 
         }

@@ -9,15 +9,10 @@ import conection.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import model.bean.Grupo;
-import static view.TelaGrupos.jtbGrupos;
-import static view.TelaProdutos.txtCodGrupo;
 
 /**
  *
@@ -29,227 +24,86 @@ public class GrupoDAO {
     PreparedStatement stmt = null;
     ResultSet rs = null;
 
-    public void salvar(Grupo g) {
+    EntityManager em = new ConnectionFactory().getConnection();
 
-        String sql = "INSERT INTO grupos (descricao) VALUES(?)";
-
-        con = null;
-        stmt = null;
-        rs = null;
+    public Grupo save(Grupo g) {
 
         try {
-
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            stmt.setString(1, g.getGrupo());
-
-            stmt.execute();
-
-            //JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERRO AO SALVAR " + e);
-            System.out.println(e);
+            em.getTransaction().begin();
+            em.persist(g);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+            em.getTransaction().rollback();
         } finally {
-
-            //Fechar as conexões 
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            em.close();
         }
+        return g;
 
     }
 
-    public List<Grupo> readgrupos() {
+    public List<Grupo> readGrupos() {
 
-        con = ConnectionFactory.getConnection();
-        stmt = null;
-        rs = null;
+        List<Grupo> grupos = null;
 
-        List<Grupo> grupos = new ArrayList<>();
-
-        String sql = "SELECT * FROM grupos";
         try {
-            stmt = con.prepareStatement(sql);
-            //stmt.setString(1, txtPesquisaCli.getText() + "%");
-            rs = stmt.executeQuery();
+            grupos = em.createQuery("from Grupo g").getResultList();
 
-            while (rs.next()) {
-
-                Grupo objgrupo = new Grupo();
-
-                objgrupo.setCodigo(rs.getInt("codigo"));
-                objgrupo.setGrupo(rs.getString("descricao"));
-
-                grupos.add(objgrupo);
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            em.close();
         }
 
         return grupos;
     }
 
-    public void setar_grupos(Grupo g) {
+    public Grupo findById(Integer id) {
 
-        //int setar = jtbUsuario.getSelectedRow();
-        con = null;
-        stmt = null;
-        rs = null;
-
-        String id = "" + jtbGrupos.getValueAt(jtbGrupos.getSelectedRow(), 0);
-        String sql = "select * from grupos where codigo= ?";
+        Grupo grupo = null;
 
         try {
+            grupo = em.find(Grupo.class, id);
 
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-            //stmt = con.prepareStatement(sql);
-
-            stmt.setString(1, id);
-
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-
-                g.setCodigo(rs.getInt(1));
-                g.setGrupo(rs.getString(2));
-
-                //desabilitando funções
-            } else {
-                JOptionPane.showMessageDialog(null, "Grupo não Encontrada!");
-            }
         } catch (Exception e2) {
             JOptionPane.showMessageDialog(null, e2);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            em.close();
         }
+        return grupo;
 
     }
 
     public void update(Grupo g) {
-
-        String sql = "UPDATE grupos SET descricao=? WHERE codigo =?";
-
-        con = null;
-        stmt = null;
-        rs = null;
-        try {
-
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            stmt.setString(1, g.getGrupo());
-            stmt.setInt(2, g.getCodigo());
-
-            stmt.execute();
-
-            JOptionPane.showMessageDialog(null, "Atualizado");
-            System.out.println("teste: " + stmt);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERRO AO ATUALIZAR " + e);
-
-        } finally {
-
-            //Fechar as conexões 
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-
-    }
-    
-    public void Deletar(Grupo g) {
-
-        con = ConnectionFactory.getConnection();
-        stmt = null;
-
-        String sql = "delete from grupos where codigo = ?;";
-
-        try {
-
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            stmt.setInt(1, g.getCodigo());
-
-            stmt.executeUpdate();
-
-            //JOptionPane.showMessageDialog(null, "Marca Excluido!");
-            System.out.println("TESTE" + stmt);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao Excluir " + e);
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt);
-        }
-
-    }
-    
-    public void setarcampo(Grupo g) {
-
-        //int setar = jtbUsuario.getSelectedRow();
-        con = null;
-        stmt = null;
-        rs = null;
-
-        //String id = txtCodMarca.getText();
-        String sql = "select * from grupos where codigo =" + g.getCodigo();
-
-        try {
-
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            //stmt.setInt(1, m.getCodigo());
-            rs = stmt.executeQuery();
-            System.out.println(sql);
-            if (rs.next()) {
-
-                g.setCodigo(rs.getInt(1));
-                g.setGrupo(rs.getString(2));
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Grupo não Encontrada!");
-                txtCodGrupo.setText("");
-            }
-
-        } catch (Exception e) {
-        }
-
-    }
-    
-    public void setarNome(Grupo g) {
-
-        //int setar = jtbUsuario.getSelectedRow();
-        con = null;
-        stmt = null;
-        rs = null;
-
-        //String id = txtCodMarca.getText();
-        String desc = g.getGrupo();
         
-        String sql = "select * from grupos where descricao ='"+desc+"'";
-
-        try {
-
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            //stmt.setInt(1, m.getCodigo());
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-
-                g.setCodigo(rs.getInt(1));
-                g.setGrupo(rs.getString(2));
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Grupo não Encontrada!");
-               
-            }
-
-        } catch (Exception e) {
+        try{
+        em.getTransaction().begin();
+        em.merge(g);
+        em.getTransaction().commit();
+        }catch(Exception e){
+            em.getTransaction().rollback();
+        }finally{
+            em.close();
         }
-
     }
+
+    public Grupo remove(Integer id) {
+        Grupo g = null;
+        try {
+            g = em.find(Grupo.class, id);
+            em.getTransaction().begin();
+            em.remove(g);
+            em.getTransaction().commit();
+            
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e);
+        }finally{
+            em.close();
+        }
+        return g;
+        
+    }
+
+
 }

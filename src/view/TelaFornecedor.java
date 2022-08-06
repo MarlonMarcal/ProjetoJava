@@ -706,7 +706,7 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
 
         f.setIdFornecedor(Integer.valueOf(txtId.getText()));
 
-        dao.Deletar(f);
+        dao.Delete(f);
 
         txtCgc.setText(null);
         txtNome.setText(null);
@@ -823,8 +823,8 @@ public class TelaFornecedor extends javax.swing.JInternalFrame {
         //objcliente.setDatacadastro(txtDataCadastro.getText()));
         //objcliente.setDataalteracao(txtDataAlteracao.getText());
         //java.time.LocalDateTime;
-        dao.salvar(f);
-        dao.recuperarFornecedor(f);
+        dao.save(f);
+        
 
         txtId.setText(String.valueOf(f.getIdFornecedor()));
 

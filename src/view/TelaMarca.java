@@ -287,7 +287,7 @@ public class TelaMarca extends javax.swing.JInternalFrame {
 
         objmarca.setMarca(txtMarca.getText());
 
-        objMarca.salvar(objmarca);
+        objMarca.save(objmarca);
         
         txtCodigo.setText(null);
         txtMarca.setText(null);
@@ -296,14 +296,14 @@ public class TelaMarca extends javax.swing.JInternalFrame {
 
     public void setar() {
 
-        MarcaDAO Objsetar = new MarcaDAO();
+        MarcaDAO dao = new MarcaDAO();
+        
+        Integer id = (Integer) jtbMarcas.getValueAt(jtbMarcas.getSelectedRow(), 0);
 
-        Marca objsetar = new Marca();
+        Marca m = dao.findById(id);
 
-        Objsetar.setar_marcas(objsetar);
-
-        txtCodigo.setText(String.valueOf(objsetar.getCodigo()));
-        txtMarca.setText(objsetar.getMarca());
+        txtCodigo.setText(String.valueOf(m.getCodigo()));
+        txtMarca.setText(m.getMarca());
 
     }
 
@@ -314,8 +314,10 @@ public class TelaMarca extends javax.swing.JInternalFrame {
         Marca m = new Marca();
 
         m.setCodigo(Integer.parseInt(txtCodigo.getText()));
+        
+        Integer id = (Integer) jtbMarcas.getValueAt(jtbMarcas.getSelectedRow(), 0);
 
-        dao.Deletar(m);
+        dao.remove(id);
 
         txtCodigo.setText(null);
         txtMarca.setText(null);

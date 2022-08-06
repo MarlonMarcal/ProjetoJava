@@ -5,16 +5,29 @@
  */
 package model.bean;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 
 /**
  *
  * @author Marlon
  */
-public class Cliente {
 
-    private int idcliente;
+@Entity
+public class Cliente implements Serializable {
+    private static final long serialVersionUID = 2L;
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="pessoa_sequece")
+    @SequenceGenerator(name="pessoa_sequece", sequenceName="pes_seq")
+    private Integer idcliente;
     private String cgc;
     private String nome;
     private String celular;
@@ -28,16 +41,42 @@ public class Cliente {
     private String cidade;
     private String uf;
     private Boolean inativo;
-    private Timestamp datacadastro;
-    private Timestamp dataalteracao;
-    
+    private Date datacadastro;
+    private Date dataalteracao;
+    private String operadorcadastro;
+    private String operadoalteracao;
+
+    public Cliente() {
+    }
+
+    public Cliente(Integer idcliente, String cgc, String nome, String celular, String telefone, String email, String cep, String endereco, String complemento, String numero, String bairro, String cidade, String uf, Boolean inativo, Date datacadastro, Date dataalteracao, String operadorcadastro, String operadoalteracao) {
+        this.idcliente = idcliente;
+        this.cgc = cgc;
+        this.nome = nome;
+        this.celular = celular;
+        this.telefone = telefone;
+        this.email = email;
+        this.cep = cep;
+        this.endereco = endereco;
+        this.complemento = complemento;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.uf = uf;
+        this.inativo = inativo;
+        this.datacadastro = datacadastro;
+        this.dataalteracao = dataalteracao;
+        this.operadorcadastro = operadorcadastro;
+        this.operadoalteracao = operadoalteracao;
+    }
 
 
-    public int getIdCliente() {
+
+    public Integer getIdCliente() {
         return idcliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(Integer idCliente) {
         this.idcliente = idCliente;
     }
 
@@ -145,20 +184,37 @@ public class Cliente {
         this.inativo = inativo;
     }
 
-    public Timestamp getDatacadastro() {
+    public Date getDatacadastro() {
         return datacadastro;
     }
 
-    public void setDatacadastro(Timestamp datacadastro) {
+    public void setDatacadastro(Date datacadastro) {
         this.datacadastro = datacadastro;
     }
 
-    public Timestamp getDataalteracao() {
+    public Date getDataalteracao() {
         return dataalteracao;
     }
 
-    public void setDataalteracao(Timestamp dataalteracao) {
+    public void setDataalteracao(Date dataalteracao) {
         this.dataalteracao = dataalteracao;
     }
 
+    public String getOperadorcadastro() {
+        return operadorcadastro;
+    }
+
+    public void setOperadorcadastro(String operadorcadastro) {
+        this.operadorcadastro = operadorcadastro;
+    }
+
+    public String getOperadoalteracao() {
+        return operadoalteracao;
+    }
+
+    public void setOperadoalteracao(String operadoalteracao) {
+        this.operadoalteracao = operadoalteracao;
+    }
+    
+    
 }

@@ -10,21 +10,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Marlon
  */
-public class GerarRelatorio {
-
+public class GerarRelatorio {/*
+  
     public static void gerarRelatorioProd(Date dataInicio, Date dataFim, String grupo, String marca) throws Exception {
 
         try {
@@ -40,12 +32,12 @@ public class GerarRelatorio {
             JasperReport jas = (JasperReport) JRLoader.loadObjectFromFile("C:/Reports/produtos.jasper");
 
             JasperPrint jasprint = JasperFillManager.fillReport(jas, params, ConnectionFactory.getConnection());
-/**
+
             JRExporter exporter = new JRPdfExporter();
             exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, "C:/Reports/emitidos/produtos.pdf");
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasprint);
             exporter.exportReport();
-*/
+
             JasperViewer viewer = new JasperViewer(jasprint, false);
             viewer.show();
 
@@ -57,4 +49,4 @@ public class GerarRelatorio {
 
     }
 
-}
+*/}

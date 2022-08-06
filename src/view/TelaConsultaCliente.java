@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -69,7 +70,7 @@ public final class TelaConsultaCliente extends javax.swing.JInternalFrame {
         modelo.setNumRows(0);
         ClienteDAO cdao = new ClienteDAO();
 
-        cdao.readcgc().forEach((Cliente c) -> {
+        cdao.findByCgc(txtPesquisaCli.getText()).forEach((Cliente c) -> {
             modelo.addRow(new Object[]{
                 c.getIdCliente(),
                 c.getCgc(),
@@ -113,7 +114,8 @@ public final class TelaConsultaCliente extends javax.swing.JInternalFrame {
     }
 
     public void setar() {
-
+        
+        
         ClienteDAO Objsetar = new ClienteDAO();
 
         Cliente c = new Cliente();
@@ -156,7 +158,7 @@ public final class TelaConsultaCliente extends javax.swing.JInternalFrame {
         ResultSet rs = null;
 
         try {
-            con = ConnectionFactory.getConnection();
+            con = ConnectionFactory.getJdbc();
             stmt = (PreparedStatement) con.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {

@@ -7,7 +7,6 @@ package view;
 
 import conection.ConnectionFactory;
 import javax.swing.ImageIcon;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -69,7 +68,7 @@ public final class TelaConsultaFornecedor extends javax.swing.JInternalFrame {
         modelo.setNumRows(0);
         FornecedorDAO fdao = new FornecedorDAO();
 
-        fdao.readcgc().forEach((Fornecedor f) -> {
+        fdao.findByCgc().forEach((Fornecedor f) -> {
             modelo.addRow(new Object[]{
                 f.getIdFornecedor(),
                 f.getCgc(),
@@ -88,7 +87,7 @@ public final class TelaConsultaFornecedor extends javax.swing.JInternalFrame {
         modelo.setNumRows(0);
         FornecedorDAO fdao = new FornecedorDAO();
 
-        fdao.readnome().forEach((f) -> {
+        fdao.findByNome().forEach((f) -> {
             modelo.addRow(new Object[]{
                 f.getIdFornecedor(),
                 f.getCgc(),
@@ -151,7 +150,7 @@ public final class TelaConsultaFornecedor extends javax.swing.JInternalFrame {
         ResultSet rs = null;
 
         try {
-            con = ConnectionFactory.getConnection();
+            con = ConnectionFactory.getJdbc();
             stmt = (PreparedStatement) con.prepareStatement(sql);
             rs = stmt.executeQuery();
             if (rs.next()) {

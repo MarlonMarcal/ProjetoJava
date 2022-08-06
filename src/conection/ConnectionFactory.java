@@ -12,20 +12,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
  * @author Marlon
  */
 public class ConnectionFactory {
+    
+    //conexão usando JPA
+    
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("meubancoBase");
+    
+    public EntityManager getConnection(){
+       return emf.createEntityManager(); 
+    }
+    
+  
+    
+    //Conexão Usando JDBC
    
     //private static final String DRIVER = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/banco2";
+    private static final String URL = "jdbc:mysql://localhost:3306/base";
     private static final String USER = "root";
-    private static final String PASS = "118526";
+    private static final String PASS = "";
     
-    public static Connection getConnection(){
-    
+    public static Connection getJdbc(){
+        
+
         try {
             //Class.forName(DRIVER);            
             return DriverManager.getConnection(URL, USER, PASS);          
@@ -68,8 +84,9 @@ public class ConnectionFactory {
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
           }
-    }    
-        
+    } 
 }
+        
+
     
     

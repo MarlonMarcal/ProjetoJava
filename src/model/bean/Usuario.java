@@ -5,15 +5,24 @@
  */
 package model.bean;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 
 
 /**
  *
  * @author Marlon
  */
-public class Usuario {
-   
-    private String iduser;
+@Entity
+public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue
+    private Integer iduser;
     private String usuario;
     private String fone;
     private String login;
@@ -21,11 +30,26 @@ public class Usuario {
     private String perfil;
     private String status;
 
-    public String getIduser() {
+    public Usuario() {
+    }
+
+    public Usuario(Integer iduser, String usuario, String fone, String login, String senha, String perfil, String status) {
+        this.iduser = iduser;
+        this.usuario = usuario;
+        this.fone = fone;
+        this.login = login;
+        this.senha = senha;
+        this.perfil = perfil;
+        this.status = status;
+    }
+    
+    
+
+    public Integer getIduser() {
         return iduser;
     }
 
-    public void setIduser(String iduser) {
+    public void setIduser(Integer iduser) {
         this.iduser = iduser;
     }
 

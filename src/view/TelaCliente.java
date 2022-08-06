@@ -8,15 +8,15 @@ package view;
 import br.com.parg.viacep.ViaCEP;
 import br.com.parg.viacep.ViaCEPException;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import model.bean.Cliente;
 import model.dao.ClienteDAO;
 import javax.swing.JOptionPane;
 import util.LimitaCaracteres;
-import static view.JfPrincipal.jdpPrincipal;
 
 /**
  *
@@ -37,6 +37,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     }
 
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    Calendar calendar = Calendar.getInstance();
     public static boolean conCli;
 
     /**
@@ -56,12 +57,12 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         txtDataCadastro = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        txtDataCadastro1 = new javax.swing.JTextField();
+        txtOpCadastro = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         txtDataAlteracao = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        txtDataAlteracao1 = new javax.swing.JTextField();
+        txtOpAlteracao = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtCgc = new javax.swing.JTextField();
@@ -89,15 +90,15 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCidade = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         cbUF = new javax.swing.JComboBox<>();
-        jPanel2 = new javax.swing.JPanel();
+        btnPesqCli = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        btnSair = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
-        btnPesqCli = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setIconifiable(true);
         setTitle("Clientes");
@@ -135,8 +136,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel16.setText("OPERADOR CADASTRO:");
 
-        txtDataCadastro1.setEditable(false);
-        txtDataCadastro1.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtOpCadastro.setEditable(false);
+        txtOpCadastro.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -150,7 +151,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDataCadastro1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOpCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -163,7 +164,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel16)
-                    .addComponent(txtDataCadastro1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOpCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -178,8 +179,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel17.setText("OPERADOR ALTERAÇÂO:");
 
-        txtDataAlteracao1.setEditable(false);
-        txtDataAlteracao1.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtOpAlteracao.setEditable(false);
+        txtOpAlteracao.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -193,7 +194,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDataAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDataAlteracao1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOpAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
         jPanel5Layout.setVerticalGroup(
@@ -206,7 +207,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(txtDataAlteracao1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtOpAlteracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -242,19 +243,19 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel1.setText("CPF/CNPJ:");
 
-        txtCgc.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtCgc.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("COD:");
 
-        txtId.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        txtId.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         txtId.setForeground(new java.awt.Color(0, 0, 153));
         txtId.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel2.setText("RAZAO SOCIAL:");
 
-        txtNome.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        txtNome.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel3.setText("CELULAR:");
@@ -269,17 +270,17 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel12.setText("TELEFONE:");
 
-        txtTelefone.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtTelefone.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel13.setText("E-MAIL:");
 
-        txtEmail.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel4.setText("CEP:");
 
-        txtCep.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtCep.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         txtCep.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtCepFocusLost(evt);
@@ -299,32 +300,32 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel5.setText("ENDEREÇO:");
 
-        txtEndereco.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtEndereco.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel8.setText("COMPLEMENTO:");
 
-        txtComplemento.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtComplemento.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel9.setText("NUMERO:");
 
-        txtNumero.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtNumero.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel6.setText("BAIRRO:");
 
-        txtBairro.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtBairro.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel7.setText("CIDADE:");
 
-        txtCidade.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        txtCidade.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel11.setText("UF:");
 
-        cbUF.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        cbUF.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbUF.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
         cbUF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -447,41 +448,13 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 .addGap(15, 15, 15))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(482, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("CADASTRO", jPanel1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1077, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 580, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab2", jPanel2);
+        btnPesqCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons18/icons8-pesquisar-18.png"))); // NOI18N
+        btnPesqCli.setText("Pesquisar");
+        btnPesqCli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesqCliActionPerformed(evt);
+            }
+        });
 
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-adicionar-usuário-masculino-24.png"))); // NOI18N
         btnNovo.setText("Novo");
@@ -493,6 +466,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-editar-usuário-masculino-24.png"))); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-remover-usuário-masculino-24.png"))); // NOI18N
         btnExcluir.setText("Excluir");
@@ -518,6 +496,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-impressão-24.png"))); // NOI18N
+        btnImprimir.setText("Imprimir");
+
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-desligar-24.png"))); // NOI18N
         btnSair.setText("Sair");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
@@ -526,16 +507,70 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons24/icons8-impressão-24.png"))); // NOI18N
-        btnImprimir.setText("Imprimir");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnNovo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExcluir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnSalvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnPesqCli))))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnPesqCli, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnNovo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnExcluir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnImprimir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSair)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
-        btnPesqCli.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons18/icons8-pesquisar-18.png"))); // NOI18N
-        btnPesqCli.setText("Pesquisar");
-        btnPesqCli.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPesqCliActionPerformed(evt);
-            }
-        });
+        jTabbedPane1.addTab("CADASTRO", jPanel1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 738, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 580, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("tab2", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -543,46 +578,18 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1082, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnPesqCli, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnNovo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExcluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnImprimir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPesqCli, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNovo)
-                        .addComponent(btnEditar)
-                        .addComponent(btnExcluir)
-                        .addComponent(btnSalvar)
-                        .addComponent(btnCancelar)
-                        .addComponent(btnSair)
-                        .addComponent(btnImprimir)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        setBounds(550, 0, 1116, 725);
+        setBounds(550, 0, 779, 678);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
@@ -615,12 +622,12 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     private void btnPesqCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqCliActionPerformed
         // TODO add your handling code here:
-        if (conCli == false) {
-            TelaConsultaCliente objConCli = new TelaConsultaCliente();
-            jdpPrincipal.add(objConCli);
-            objConCli.setVisible(true);
-            conCli = true;
-        }
+
+        TelaPesquisaCli objConCli = new TelaPesquisaCli(null, true);
+
+        objConCli.setVisible(true);
+
+
     }//GEN-LAST:event_btnPesqCliActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -768,56 +775,62 @@ public class TelaCliente extends javax.swing.JInternalFrame {
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
+        
+        Object[] options = { "Sim", "Não" }; 
+        
+        int q = JOptionPane.showOptionDialog(null, "Deseja Excluir Este Cliente ?", "Exclusão !", JOptionPane.DEFAULT_OPTION,JOptionPane.WARNING_MESSAGE, null, options, options[0] );
 
-        ClienteDAO dao = new ClienteDAO();
+        if (q == 0) {
+            ClienteDAO dao = new ClienteDAO();
 
-        Cliente c = new Cliente();
+            Cliente c = new Cliente();
 
-        c.setIdCliente(Integer.valueOf(txtId.getText()));
+            Integer id = Integer.valueOf(txtId.getText());
 
-        dao.Deletar(c);
+            dao.remove(id);
 
-        txtCgc.setText(null);
-        txtNome.setText(null);
-        txtId.setText(null);
-        ftxtCelular.setText(null);
-        txtTelefone.setText(null);
-        txtEmail.setText(null);
-        txtCep.setText(null);
-        txtEndereco.setText(null);
-        txtComplemento.setText(null);
-        txtNumero.setText(null);
-        txtBairro.setText(null);
-        txtCidade.setText(null);
-        txtDataCadastro.setText(null);
-        txtDataAlteracao.setText(null);
-        cbUF.setSelectedIndex(0);
+            txtCgc.setText(null);
+            txtNome.setText(null);
+            txtId.setText(null);
+            ftxtCelular.setText(null);
+            txtTelefone.setText(null);
+            txtEmail.setText(null);
+            txtCep.setText(null);
+            txtEndereco.setText(null);
+            txtComplemento.setText(null);
+            txtNumero.setText(null);
+            txtBairro.setText(null);
+            txtCidade.setText(null);
+            txtDataCadastro.setText(null);
+            txtDataAlteracao.setText(null);
+            cbUF.setSelectedIndex(0);
 
-        //Desativando campos
-        txtCgc.setEnabled(false);
-        txtNome.setEnabled(false);
+            //Desativando campos
+            txtCgc.setEnabled(false);
+            txtNome.setEnabled(false);
 
-        ftxtCelular.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtEmail.setEnabled(false);
-        txtCep.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtComplemento.setEnabled(false);
-        txtNumero.setEnabled(false);
-        txtBairro.setEnabled(false);
-        txtCidade.setEnabled(false);
+            ftxtCelular.setEnabled(false);
+            txtTelefone.setEnabled(false);
+            txtEmail.setEnabled(false);
+            txtCep.setEnabled(false);
+            txtEndereco.setEnabled(false);
+            txtComplemento.setEnabled(false);
+            txtNumero.setEnabled(false);
+            txtBairro.setEnabled(false);
+            txtCidade.setEnabled(false);
 
-        cbUF.setEnabled(false);
+            cbUF.setEnabled(false);
 
-        // BOTÕES
-        btnNovo.setEnabled(true);
-        btnEditar.setEnabled(false);
-        btnSalvar.setEnabled(false);
-        btnExcluir.setEnabled(false);
-        btnCancelar.setEnabled(false);
-        btnSair.setEnabled(true);
-        cbxInativo.setEnabled(false);
-        btnImprimir.setEnabled(false);
+            // BOTÕES
+            btnNovo.setEnabled(true);
+            btnEditar.setEnabled(false);
+            btnSalvar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+            btnCancelar.setEnabled(false);
+            btnSair.setEnabled(true);
+            cbxInativo.setEnabled(false);
+            btnImprimir.setEnabled(false);
+        } 
 
 
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -854,6 +867,36 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private void cbUFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbUFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbUFActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+
+        txtCgc.setEnabled(true);
+        txtNome.setEnabled(true);
+
+        ftxtCelular.setEnabled(true);
+        txtTelefone.setEnabled(true);
+        txtEmail.setEnabled(true);
+        txtCep.setEnabled(true);
+        txtEndereco.setEnabled(true);
+        txtComplemento.setEnabled(true);
+        txtNumero.setEnabled(true);
+        txtBairro.setEnabled(true);
+        txtCidade.setEnabled(true);
+
+        cbUF.setEnabled(false);
+
+        btnNovo.setEnabled(true);
+        btnEditar.setEnabled(true);
+        btnSalvar.setEnabled(true);
+        btnExcluir.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnSair.setEnabled(true);
+        cbxInativo.setEnabled(true);
+        btnImprimir.setEnabled(true);
+
+
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -898,46 +941,46 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     public static javax.swing.JTextField txtCidade;
     public static javax.swing.JTextField txtComplemento;
     public static javax.swing.JTextField txtDataAlteracao;
-    public static javax.swing.JTextField txtDataAlteracao1;
     public static javax.swing.JTextField txtDataCadastro;
-    public static javax.swing.JTextField txtDataCadastro1;
     public static javax.swing.JTextField txtEmail;
     public static javax.swing.JTextField txtEndereco;
     public static javax.swing.JTextField txtId;
     public static javax.swing.JTextField txtNome;
     public static javax.swing.JTextField txtNumero;
+    public static javax.swing.JTextField txtOpAlteracao;
+    public static javax.swing.JTextField txtOpCadastro;
     public static javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 
     public void btnsalvar() {
 
-        ClienteDAO objCliente = new ClienteDAO();
+        Timestamp data = new Timestamp(System.currentTimeMillis());
 
-        Cliente objcliente = new Cliente();
+        ClienteDAO dao = new ClienteDAO();
 
-        objcliente.setCgc(txtCgc.getText());
-        objcliente.setNome(txtNome.getText());
-        objcliente.setCelular(ftxtCelular.getText());
-        objcliente.setTelefone(txtTelefone.getText());
-        objcliente.setEmail(txtEmail.getText());
-        objcliente.setCep(txtCep.getText());
-        objcliente.setEndereco(txtEndereco.getText());
-        objcliente.setComplemento(txtComplemento.getText());
-        objcliente.setNumero(txtNumero.getText());
-        objcliente.setBairro(txtBairro.getText());
-        objcliente.setCidade(txtCidade.getText());
-        objcliente.setUf(cbUF.getSelectedItem().toString());
-        objcliente.setInativo(cbxInativo.isSelected());
+        Cliente cliente = new Cliente();
 
-        //objcliente.setDatacadastro(txtDataCadastro.getText()));
-        //objcliente.setDataalteracao(txtDataAlteracao.getText());
-        //java.time.LocalDateTime;
-        objCliente.salvar(objcliente);
-        objCliente.recuperarCliente(objcliente);
+        cliente.setCgc(txtCgc.getText());
+        cliente.setNome(txtNome.getText());
+        cliente.setCelular(ftxtCelular.getText());
+        cliente.setTelefone(txtTelefone.getText());
+        cliente.setEmail(txtEmail.getText());
+        cliente.setCep(txtCep.getText());
+        cliente.setEndereco(txtEndereco.getText());
+        cliente.setComplemento(txtComplemento.getText());
+        cliente.setNumero(txtNumero.getText());
+        cliente.setBairro(txtBairro.getText());
+        cliente.setCidade(txtCidade.getText());
+        cliente.setUf(cbUF.getSelectedItem().toString());
+        cliente.setInativo(cbxInativo.isSelected());
+        cliente.setDatacadastro((Date) calendar.getTime());
+        //cliente.setDatacadastro(date.);
 
-        txtId.setText(String.valueOf(objcliente.getIdCliente()));
+        dao.save(cliente);
 
-        //txtDataCadastro.setText(sdf.format(objcliente.getDatacadastro()));
+        txtId.setText(String.valueOf(cliente.getIdCliente()));
+        txtDataCadastro.setText(String.valueOf(sdf.format(cliente.getDatacadastro())));
+
     }
 
     public void btnupdate() {
@@ -945,9 +988,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         ClienteDAO objCliente = new ClienteDAO();
 
         Cliente objcliente = new Cliente();
-        
-        Timestamp data = new Timestamp(System.currentTimeMillis());
-        
+
         objcliente.setCgc(txtCgc.getText());
         objcliente.setNome(txtNome.getText());
         objcliente.setCelular(ftxtCelular.getText());
@@ -964,11 +1005,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         objcliente.setIdCliente(Integer.valueOf(txtId.getText()));
 
         //objcliente.setDatacadastro(txtDataCadastro.getText()));
-        objcliente.setDataalteracao(data);
-        
+        objcliente.setDataalteracao((Date) calendar.getTime());
+
         objCliente.update(objcliente);
-        
-        txtDataAlteracao.setText(String.valueOf(sdf.format(data)));
+
+        txtDataAlteracao.setText(String.valueOf(sdf.format(objcliente.getDataalteracao())));
 
     }
 

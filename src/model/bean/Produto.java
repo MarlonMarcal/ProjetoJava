@@ -5,18 +5,128 @@
  */
 package model.bean;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Marlon
  */
-public class Produto {
+@Entity
+public class Produto implements Serializable {
+    private static final long serialVersionUID = 1L;
     
-    Locale localeBR = new Locale("pt","BR");
+    Locale localeBR = new Locale("pt", "BR");
     NumberFormat dinheiro = NumberFormat.getCurrencyInstance(localeBR);
+    
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int codigo;
+    private String referencia;
+    private String codBarras;
+    private String descricao;
+    
+    @ManyToOne
+    @JoinColumn(name="idfornecedor")
+    private Fornecedor fornecedor;
+    
+    @ManyToOne
+    @JoinColumn(name="idmarca")
+    private Marca marca;
+    
+    @ManyToOne
+    @JoinColumn(name="idgrupo")
+    private Grupo grupo;
+    
+    private Integer subgrupo;
+    
+    @ManyToOne
+    @JoinColumn(name="idembalagem")
+    private Embalagem embalagem;
+    
+    private float peso;
+    private float altura;
+    private float largura;
+
+    private float precoCompra;
+    private float prIpi;
+    private float icmsST;
+    private float frete;
+    private float custoTotal;
+
+    private float cmv;
+    private float mk;
+    private float ll;
+    private float precoVenda;
+
+    private int ncm;
+    private int cest;
+    private int cst;
+    private float icmsInterno;
+    private float icmsExterno;
+    private float pis;
+    private float cofins;
+    private Date dataCadastro;
+
+    public Produto() {
+    }
+
+    public Produto(int codigo, String referencia, String codBarras, String descricao, Fornecedor fornecedor, Marca marca, Grupo grupo, Integer subgrupo, Embalagem embalagem, float peso, float altura, float largura, float precoCompra, float prIpi, float icmsST, float frete, float custoTotal, float cmv, float mk, float ll, float precoVenda, int ncm, int cest, int cst, float icmsInterno, float icmsExterno, float pis, float cofins, Date dataCadastro) {
+        this.codigo = codigo;
+        this.referencia = referencia;
+        this.codBarras = codBarras;
+        this.descricao = descricao;
+        this.fornecedor = fornecedor;
+        this.marca = marca;
+        this.grupo = grupo;
+        this.subgrupo = subgrupo;
+        this.embalagem = embalagem;
+        this.peso = peso;
+        this.altura = altura;
+        this.largura = largura;
+        this.precoCompra = precoCompra;
+        this.prIpi = prIpi;
+        this.icmsST = icmsST;
+        this.frete = frete;
+        this.custoTotal = custoTotal;
+        this.cmv = cmv;
+        this.mk = mk;
+        this.ll = ll;
+        this.precoVenda = precoVenda;
+        this.ncm = ncm;
+        this.cest = cest;
+        this.cst = cst;
+        this.icmsInterno = icmsInterno;
+        this.icmsExterno = icmsExterno;
+        this.pis = pis;
+        this.cofins = cofins;
+        this.dataCadastro = dataCadastro;
+    }
+
+    public Locale getLocaleBR() {
+        return localeBR;
+    }
+
+    public void setLocaleBR(Locale localeBR) {
+        this.localeBR = localeBR;
+    }
+
+    public NumberFormat getDinheiro() {
+        return dinheiro;
+    }
+
+    public void setDinheiro(NumberFormat dinheiro) {
+        this.dinheiro = dinheiro;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -50,44 +160,44 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public int getCodFornecedor() {
-        return codfornecedor;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 
-    public void setCodFornecedor(int codfornecedor) {
-        this.codfornecedor = codfornecedor;
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
 
-    public int getCodMarca() {
-        return codmarca;
+    public Marca getMarca() {
+        return marca;
     }
 
-    public void setCodMarca(int codmarca) {
-        this.codmarca = codmarca;
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 
-    public int getCodGrupo() {
-        return codgrupo;
+    public Grupo getGrupo() {
+        return grupo;
     }
 
-    public void setCodGrupo(int codgrupo) {
-        this.codgrupo = codgrupo;
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
-    public int getCodSubgrupo() {
-        return codsubgrupo;
+    public Integer getSubgrupo() {
+        return subgrupo;
     }
 
-    public void setCodSubgrupo(int codsubgrupo) {
-        this.codsubgrupo = codsubgrupo;
+    public void setSubgrupo(Integer subgrupo) {
+        this.subgrupo = subgrupo;
     }
 
-    public String getUnidade() {
-        return unidade;
+    public Embalagem getEmbalagem() {
+        return embalagem;
     }
 
-    public void setUnidade(String unidade) {
-        this.unidade = unidade;
+    public void setEmbalagem(Embalagem embalagem) {
+        this.embalagem = embalagem;
     }
 
     public float getPeso() {
@@ -185,9 +295,6 @@ public class Produto {
     public void setPrecoVenda(float precoVenda) {
         this.precoVenda = precoVenda;
     }
-    public String getPrecoFormatado(){
-      return  dinheiro.format(precoVenda);
-    }
 
     public int getNcm() {
         return ncm;
@@ -244,41 +351,6 @@ public class Produto {
     public void setCofins(float cofins) {
         this.cofins = cofins;
     }
-    
-    private int codigo;
-    private String referencia;
-    private String codBarras;
-    private String descricao;
-    private int codfornecedor;
-    
-    
-    private int codmarca;
-    private int codgrupo;
-    private int codsubgrupo;
-    private String unidade;
-    private float peso;
-    private float altura;
-    private float largura;
-    
-    private float precoCompra;
-    private float prIpi;
-    private float icmsST;
-    private float frete;
-    private float custoTotal;
-    
-    private float cmv;
-    private float mk;
-    private float ll;
-    private float precoVenda;
-  
-    private int ncm;
-    private int cest;
-    private int cst;
-    private float icmsInterno;
-    private float icmsExterno;
-    private float pis;
-    private float cofins;
-    private Date dataCadastro;
 
     public Date getDataCadastro() {
         return dataCadastro;
@@ -287,6 +359,13 @@ public class Produto {
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" + "localeBR=" + localeBR + ", dinheiro=" + dinheiro + ", codigo=" + codigo + ", referencia=" + referencia + ", codBarras=" + codBarras + ", descricao=" + descricao + ", fornecedor=" + fornecedor + ", marca=" + marca + ", grupo=" + grupo + ", subgrupo=" + subgrupo + ", embalagem=" + embalagem + ", peso=" + peso + ", altura=" + altura + ", largura=" + largura + ", precoCompra=" + precoCompra + ", prIpi=" + prIpi + ", icmsST=" + icmsST + ", frete=" + frete + ", custoTotal=" + custoTotal + ", cmv=" + cmv + ", mk=" + mk + ", ll=" + ll + ", precoVenda=" + precoVenda + ", ncm=" + ncm + ", cest=" + cest + ", cst=" + cst + ", icmsInterno=" + icmsInterno + ", icmsExterno=" + icmsExterno + ", pis=" + pis + ", cofins=" + cofins + ", dataCadastro=" + dataCadastro + '}';
+    }
+
     
     
+
 }

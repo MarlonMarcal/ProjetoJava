@@ -9,6 +9,7 @@ import conection.ConnectionFactory;
 import java.awt.Toolkit;
 import java.sql.*;
 
+
 /**
  *
  * @author Marlon
@@ -34,7 +35,9 @@ public class JfPrincipal extends javax.swing.JFrame {
     public JfPrincipal() {
         initComponents();
         
-        conexao = ConnectionFactory.getConnection();
+        
+        
+        conexao = ConnectionFactory.getJdbc();
         
         
     }
@@ -55,7 +58,7 @@ public class JfPrincipal extends javax.swing.JFrame {
         btnVendas = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         imgUser = new javax.swing.JLabel();
-        nomeUser = new javax.swing.JLabel();
+        txtNomeUser = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -76,6 +79,11 @@ public class JfPrincipal extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setExtendedState(MAXIMIZED_BOTH);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Icons32/logo80x80.png")));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jdpPrincipal.setBackground(new java.awt.Color(102, 102, 102));
         jdpPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -84,11 +92,11 @@ public class JfPrincipal extends javax.swing.JFrame {
         jdpPrincipal.setLayout(jdpPrincipalLayout);
         jdpPrincipalLayout.setHorizontalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1530, Short.MAX_VALUE)
         );
         jdpPrincipalLayout.setVerticalGroup(
             jdpPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGap(0, 582, Short.MAX_VALUE)
         );
 
         btnProdutos.setBackground(new java.awt.Color(153, 153, 255));
@@ -132,7 +140,7 @@ public class JfPrincipal extends javax.swing.JFrame {
                 .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1349, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClientes, btnProdutos, btnVendas});
@@ -149,7 +157,7 @@ public class JfPrincipal extends javax.swing.JFrame {
         imgUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user-16px.png"))); // NOI18N
         imgUser.setText(":");
 
-        nomeUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        txtNomeUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -158,13 +166,13 @@ public class JfPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(imgUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1343, Short.MAX_VALUE))
+                .addComponent(txtNomeUser, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(imgUser, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-            .addComponent(nomeUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(txtNomeUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBackground(new java.awt.Color(204, 204, 255));
@@ -318,12 +326,12 @@ public class JfPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-         if (cadProduto == false) {
+       /*  if (cadProduto == false) {
             TelaProdutos objTelaProduto = new TelaProdutos();
             jdpPrincipal.add(objTelaProduto);
             objTelaProduto.setVisible(true);
             cadProduto = true;
-        }
+        }*/
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -361,23 +369,23 @@ public class JfPrincipal extends javax.swing.JFrame {
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
         // TODO add your handling code here:
-        if (cadVendas == false) {
+      /*  if (cadVendas == false) {
             TelaVendas objTelaVendas = new TelaVendas();
             jdpPrincipal.add(objTelaVendas);
             objTelaVendas.setVisible(true);
             cadVendas = true;
-        }
+        }*/
         
     }//GEN-LAST:event_btnVendasActionPerformed
 
     private void btnProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutosActionPerformed
         // TODO add your handling code here:
-        if (cadProduto == false) {
+       /* if (cadProduto == false) {
             TelaProdutos objTelaProduto = new TelaProdutos();
             jdpPrincipal.add(objTelaProduto);
             objTelaProduto.setVisible(true);
             cadProduto = true;
-        }
+        }*/
     }//GEN-LAST:event_btnProdutosActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -430,6 +438,14 @@ public class JfPrincipal extends javax.swing.JFrame {
         }*/
         
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        
+        /*Usuario usuario = new Usuario(); 
+        txtNomeUser.setText(usuario.getLogin());*/
+ 
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -486,7 +502,7 @@ public class JfPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JDesktopPane jdpPrincipal;
-    public static javax.swing.JLabel nomeUser;
+    public static javax.swing.JLabel txtNomeUser;
     // End of variables declaration//GEN-END:variables
 
 }

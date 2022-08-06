@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 import model.bean.Cliente;
 import static view.TelaConsultaCliente.jTable1;
@@ -32,260 +33,122 @@ public class ClienteDAO {
     PreparedStatement stmt = null;
     ResultSet rs = null;
 
-    public void salvar(Cliente c) {
+    EntityManager em = new ConnectionFactory().getConnection();
 
-        String sql = "INSERT INTO cliente(CGC, NOME, CELULAR, TELEFONE, EMAIL, CEP, ENDERECO,"
-                + " COMPLEMENTO, NUMERO, BAIRRO, CIDADE, UF, INATIVO ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public Cliente save(Cliente c) {
 
-        con = null;
-        stmt = null;
-        rs = null;
         try {
 
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            stmt.setString(1, c.getCgc());
-            stmt.setString(2, c.getNome());
-            stmt.setString(3, c.getCelular());
-            stmt.setString(4, c.getTelefone());
-            stmt.setString(5, c.getEmail());
-            stmt.setString(6, c.getCep());
-            stmt.setString(7, c.getEndereco());
-            stmt.setString(8, c.getComplemento());
-            stmt.setString(9, c.getNumero());
-            stmt.setString(10, c.getBairro());
-            stmt.setString(11, c.getCidade());
-            stmt.setString(12, c.getUf());
-            stmt.setBoolean(13, c.getInativo());
-            //stmt.setDate(14, c.getDatacadastro());
-            //stmt.setDate(15, c.getDataalteracao());
-
-            stmt.execute();
+            em.getTransaction().begin();
+            em.persist(c);
+            em.getTransaction().commit();
 
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
 
         } catch (Exception e) {
+            em.getTransaction().rollback();
             JOptionPane.showMessageDialog(null, "ERRO AO SALVAR " + e);
-            System.out.println(e);
-        } finally {
 
-            //Fechar as conexões 
-            ConnectionFactory.closeConnection(con, stmt, rs);
+        } finally {
+            em.close();
         }
+        return c;
 
     }
-    /**
-     * Deleta cliente
-     *
-     * @param c
-     * @exception  Exception caso ocorra algum erro
-     */
-    
-    public void Deletar(Cliente c) {
 
-        con = ConnectionFactory.getConnection();
-        stmt = null;
+    public Cliente remove(Integer id) {
 
-        String sql = "delete from cliente where idcliente = ?;";
-
+        Cliente c = null;
         try {
+            c = em.find(Cliente.class, id);
+            em.getTransaction().begin();
+            em.remove(c);
+            em.getTransaction().commit();
 
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            stmt.setInt(1, c.getIdCliente());
-
-            stmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Cliente Excluido!");
-            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao Excluir " + e);
+            em.getTransaction().rollback();
+            JOptionPane.showMessageDialog(null, e);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt);
+            em.close();
         }
+        return c;
 
     }
-    /**
-     * update Cliente
-     *
-     * @param c cliente
-     * @exception  Exception caso ocorra algum erro
-     */
+
     public void update(Cliente c) {
 
-        String sql = "UPDATE cliente SET CGC=?, NOME=?, CELULAR=?, TELEFONE=?, EMAIL=?, CEP=?, ENDERECO=?, COMPLEMENTO=?, NUMERO=?, BAIRRO=?, CIDADE=?, UF=?, INATIVO=?, DATAALTERACAO=? WHERE idcliente =?";
-
-        con = null;
-        stmt = null;
-        rs = null;
         try {
-
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-
-            stmt.setString(1, c.getCgc());
-            stmt.setString(2, c.getNome());
-            stmt.setString(3, c.getCelular());
-            stmt.setString(4, c.getTelefone());
-            stmt.setString(5, c.getEmail());
-            stmt.setString(6, c.getCep());
-            stmt.setString(7, c.getEndereco());
-            stmt.setString(8, c.getComplemento());
-            stmt.setString(9, c.getNumero());
-            stmt.setString(10, c.getBairro());
-            stmt.setString(11, c.getCidade());
-            stmt.setString(12, c.getUf());
-            stmt.setBoolean(13, c.getInativo());
-            //stmt.setDate(14, c.getDatacadastro());
-            stmt.setTimestamp(14, c.getDataalteracao());
-            stmt.setInt(15, c.getIdCliente());
-
-            stmt.execute();
-
-            JOptionPane.showMessageDialog(null, "Atualizado");
-            
-            
-            
+            em.getTransaction().begin();
+            em.merge(c);
+            em.getTransaction().commit();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERRO AO ATUALIZAR " + e);
-            
+            em.getTransaction().rollback();
         } finally {
-
-            //Fechar as conexões 
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            em.close();
         }
 
     }
-    /**
-     * Recupera codigo e data do banco de dados
-     *
-     * @param c
-     * @exception  Exception caso ocorra algum erro
-     */
+
     public void recuperarCliente(Cliente c) {
 
-        String sql = "select max(idcliente), max(datacadastro) from cliente";
+    }
+
+    public List<Cliente> findByCgc(String cgc) {
+
+        List<Cliente> clientes = null;
 
         try {
-            con = ConnectionFactory.getConnection();
-            stmt = (PreparedStatement) con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
-
-                c.setIdCliente(rs.getInt(1));
-
-                c.setDatacadastro(rs.getTimestamp(2));
-
-            }
+            clientes = em.createQuery("from Cliente c where c.cgc like '%" + cgc + "%'").getResultList();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro Buscar ID" + e);
+            System.out.println(e);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            em.close();
         }
-
-    }
-    /**
-     * Lista de cliente, busca cliente pelo CGC
-     *
-     * @return clientes
-     * @exception  SQLException caso ocorra algum erro
-     */
-    public List<Cliente> readcgc() {
-
-        con = ConnectionFactory.getConnection();
-        stmt = null;
-        rs = null;
-
-        List<Cliente> clientes = new ArrayList<>();
-
-        String sql = "SELECT * FROM cliente where cgc like ? ";
-        try {
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, txtPesquisaCli.getText() + "%");
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-
-                Cliente objcliente = new Cliente();
-                
-                objcliente.setIdCliente(rs.getInt("idcliente"));
-                objcliente.setCgc(rs.getString("cgc"));
-                objcliente.setNome(rs.getString("nome"));
-                objcliente.setCelular(rs.getString("celular"));
-                objcliente.setCidade(rs.getString("cidade"));
-                clientes.add(objcliente);
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
-        }
-
         return clientes;
+
     }
-    /**
-     * Lista de cliente, busca cliente pelo Nome
-     *
-     * @return clientes
-     * @exception  SQLException caso ocorra algum erro
-     */
-    public List<Cliente> readnome() {
 
-        con = ConnectionFactory.getConnection();
-        stmt = null;
-        rs = null;
+    public Cliente findById(Integer id) {
 
-        List<Cliente> clientes = new ArrayList<>();
-
-        String sql = "SELECT * FROM cliente where nome like ? ";
+        Cliente cliente = null;
 
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, "%" + txtPesquisaCli.getText() + "%");
-            rs = stmt.executeQuery();
+            cliente = em.find(Cliente.class, id);
 
-            while (rs.next()) {
-
-                Cliente objcliente = new Cliente();
-                
-                objcliente.setIdCliente(rs.getInt("idcliente"));
-                objcliente.setCgc(rs.getString("cgc"));
-                objcliente.setNome(rs.getString("nome"));
-                objcliente.setCelular(rs.getString("celular"));
-                objcliente.setCidade(rs.getString("cidade"));
-                clientes.add(objcliente);
-
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e2) {
+            JOptionPane.showMessageDialog(null, e2);
         } finally {
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            em.close();
         }
+        return cliente;
 
+    }
+
+    public List<Cliente> findByNome(String nome) {
+
+        List<Cliente> clientes = null;
+
+        try {
+            clientes = em.createQuery("from Cliente c where c.nome like '%" + nome + "%'").getResultList();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            em.close();
+        }
         return clientes;
     }
-    
-    /**
-     * seta os dados do cliente na tela de clientes, do cliente selecionado na tela 
-     * pesquisado de Clientes
-     *
-     * @param c cliente
-     * @exception  SQLException caso ocorra algum erro
-     */
+
     public void setar_campos(Cliente c) {
 
         //int setar = jTable1.getSelectedRow();
-        String id =  "" +jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        String id = "" + jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         String sql = "select * from cliente where idcliente= ?";
 
         try {
 
-            con = ConnectionFactory.getConnection();
+            con = ConnectionFactory.getJdbc();
             stmt = (PreparedStatement) con.prepareStatement(sql);
             //stmt = con.prepareStatement(sql);
 
@@ -309,10 +172,8 @@ public class ClienteDAO {
                 c.setCidade(rs.getString(12));
                 c.setUf(rs.getString(13));
                 c.setInativo(rs.getBoolean(14));
-                c.setDatacadastro(rs.getTimestamp(15));
-                c.setDataalteracao(rs.getTimestamp(16));
-                
-               
+                c.setDatacadastro(rs.getDate(15));
+                c.setDataalteracao(rs.getDate(16));
 
                 //desabilitando funções
             } else {
@@ -326,35 +187,19 @@ public class ClienteDAO {
 
     }
 
-    public void read(Cliente c) {
+    public List<Cliente> findByCod(String cod) {
 
-        con = ConnectionFactory.getConnection();
-        stmt = null;
-        rs = null;
-
-        String sql = "SELECT * FROM cliente where cgc = ? ";
+        List<Cliente> clientes = null;
 
         try {
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, c.getCgc());
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-
-                System.out.println(rs);
-
-                c.setCgc(rs.getString("cgc"));
-                c.setNome(rs.getString("nome"));
-                c.setCelular(rs.getString("celular"));
-                c.setCidade(rs.getString("cidade"));
-            } else {
-                JOptionPane.showMessageDialog(null, "Cliente Não Cadastrado!");
-            }
+            clientes = em.createQuery("from Cliente c where c.nome like '%" + cod + "%'").getResultList();
 
         } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, "Não Encontrado " + e);
+            System.out.println(e);
+        } finally {
+            em.close();
         }
+        return clientes;
 
     }
 

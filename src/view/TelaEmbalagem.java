@@ -246,28 +246,28 @@ public class TelaEmbalagem extends javax.swing.JInternalFrame {
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         // TODO add your handling code here:
-        
+
         btnexcluir();
         readTableEmbalagem();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         // TODO add your handling code here:
-        
+
         dispose();
         JfPrincipal.cadEmbalagem = false;
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
-       
+
         txtCodigo.setText(null);
         txtEmbalagem.setText(null);
         txtDescricao.setText(null);
-        
+
         txtEmbalagem.requestFocus();
-        
-        
+
+
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -275,7 +275,7 @@ public class TelaEmbalagem extends javax.swing.JInternalFrame {
         txtCodigo.setText(null);
         txtEmbalagem.setText(null);
         txtDescricao.setText(null);
-        
+
         txtEmbalagem.requestFocus();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -289,9 +289,8 @@ public class TelaEmbalagem extends javax.swing.JInternalFrame {
         e.setEmbalagem(txtEmbalagem.getText());
         e.setDescricao(txtDescricao.getText());
 
-        
         dao.update(e);
-        
+
         txtCodigo.setText(null);
         txtEmbalagem.setText(null);
         txtDescricao.setText(null);
@@ -322,12 +321,12 @@ public class TelaEmbalagem extends javax.swing.JInternalFrame {
         e.setEmbalagem(txtEmbalagem.getText());
         e.setDescricao(txtDescricao.getText());
 
-        dao.salvar(e);
-        
-        txtCodigo.setText(null);
-        txtEmbalagem.setText(null);
-        txtDescricao.setText(null);
-        
+        dao.save(e);
+
+        txtCodigo.setText(String.valueOf(e.getCodigo()));
+        txtEmbalagem.setText(e.getEmbalagem());
+        txtDescricao.setText(e.getDescricao());
+
         txtEmbalagem.requestFocus();
 
     }
@@ -336,9 +335,9 @@ public class TelaEmbalagem extends javax.swing.JInternalFrame {
 
         EmbalagemDAO dao = new EmbalagemDAO();
 
-        Embalagem e = new Embalagem();
+        Integer id = (Integer) jtbEmbalagens.getValueAt(jtbEmbalagens.getSelectedRow(), 0);
 
-        dao.setarEmbalagem(e);
+        Embalagem e = dao.findById(id);
 
         txtCodigo.setText(String.valueOf(e.getCodigo()));
         txtEmbalagem.setText(e.getEmbalagem());
@@ -348,18 +347,20 @@ public class TelaEmbalagem extends javax.swing.JInternalFrame {
 
     public void btnexcluir() {
 
-       EmbalagemDAO dao = new EmbalagemDAO();
+        EmbalagemDAO dao = new EmbalagemDAO();
 
         Embalagem e = new Embalagem();
 
         e.setCodigo(Integer.parseInt(txtCodigo.getText()));
 
-        dao.Deletar(e);
+        Integer id = (Integer) jtbEmbalagens.getValueAt(jtbEmbalagens.getSelectedRow(), 0);
+
+        dao.remove(id);
 
         txtCodigo.setText(null);
         txtEmbalagem.setText(null);
         txtDescricao.setText(null);
-        
+
         txtEmbalagem.requestFocus();
 
     }
